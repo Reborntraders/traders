@@ -201,29 +201,32 @@
 								<div class="card-body p-5">
 									<h2 class="text-color-secondary font-weight-bold text-7 line-height-1 mb-1">Request a Callback</h2>
 									<p class="custom-font-secondary text-4 pb-1 mb-4">Enter your details in the form and we will call you back.</p>
-									<form class="contact-form custom-form-style-1" action="php/contact-form.php" method="POST">
-										
+									<form class="contact-form custom-form-style-1" action="#" method="post" onsubmit="return sendMail();">
 
 										<div class="row">
 											<div class="form-group col pb-1 mb-3">
-												<input type="text" value="" data-msg-required="Please enter your name." maxlength="100" class="form-control" name="name" placeholder="Your Name" required>
+												<input type="text" value="" data-msg-required="Please enter your name." maxlength="100" class="form-control" name="name" id="name" placeholder="Your Name" required>
 											</div>
 										</div>
+									
 										<div class="row">
 											<div class="form-group col pb-1 mb-3">
-												<input type="text" value="" data-msg-required="Please enter your phone number." maxlength="100" class="form-control" name="phone" placeholder="Your Phone Number" required>
+												<input type="text" value="" data-msg-required="Please enter your phone number." maxlength="100" class="form-control" name="phone" id="phone" placeholder="Your Phone Number" required>
 											</div>
 										</div>
+									
 										<div class="row">
 											<div class="form-group col pb-1 mb-3">
-												<input type="email" value="" data-msg-required="Please enter your email." maxlength="100" class="form-control" name="email" placeholder="Your Email" required>
+												<input type="email" value="" data-msg-required="Please enter your email." maxlength="100" class="form-control" name="email" id="email" placeholder="Your Email" required>
 											</div>
 										</div>
+									
 										<div class="row">
 											<div class="form-group col">
 												<button type="submit" class="btn btn-primary btn-modern font-weight-bold text-3 px-5 py-3" data-loading-text="Loading...">CALL ME BACK</button>
 											</div>
 										</div>
+									
 									</form>
 								</div>
 							</div>
@@ -1532,6 +1535,43 @@
 			   emailjs.init("BjzJEE2EQjDRHbP22");
 			})();
 		 </script>
+		 <script>
+			function sendMail() {
+				var name = document.getElementById("name").value;
+				var phone = document.getElementById("phone").value;
+				var email = document.getElementById("email").value;
+		
+				// Check if any field is empty
+				if (name === "" || phone === "" || email === "") {
+					alert("Please fill in all fields.");
+					return false;
+				}
+		
+				var params = {
+					name: name,
+					phone: phone,
+					email: email
+				};
+		
+				// Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual values.
+				const serviceID = "service_7c7ehvo"; // Replace with your actual service ID
+				const templateID = "template_ahkpxgf"; // Replace with your actual template ID
+		
+				emailjs.send(serviceID, templateID, params)
+					.then(function(response) {
+						console.log('SUCCESS!', response.status, response.text);
+						alert("Your message has been sent successfully!");
+						document.getElementById("name").value = "";
+						document.getElementById("phone").value = "";
+						document.getElementById("email").value = "";
+					}, function(error) {
+						console.log('FAILED...', error);
+						alert("There was an error sending your message. Please try again later.");
+					});
+		
+				return false; // Prevent form submission
+			}
+		</script>
 
 	</body>
 </html>
